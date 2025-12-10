@@ -1,9 +1,17 @@
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 import json
 import os
 
 app = Flask(__name__)
+CORS(app)
+
 USERS_FILE = "users.json"
+
+# التأكد من وجود الملف
+if not os.path.exists(USERS_FILE):
+    with open(USERS_FILE, "w") as f:
+        json.dump([], f)
 
 # ----------------------------
 # Helper functions
@@ -40,6 +48,9 @@ def signup():
     data = request.get_json()
     email = data.get("email")
     password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"message": "Signup failed: Missing email or password"})
 
     users = load_users()
     if any(u["email"] == email for u in users):
