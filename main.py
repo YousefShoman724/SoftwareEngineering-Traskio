@@ -58,7 +58,7 @@ def signup():
 
     users.append({"email": email, "password": password})
     save_users(users)
-    return jsonify({"message": "Signup successful!"})
+    return jsonify({"message": "Signup successful"})
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -69,7 +69,7 @@ def login():
     users = load_users()
     for u in users:
         if u["email"] == email and u["password"] == password:
-            return jsonify({"message": "Login successful!", "success": True})
+            return jsonify({"message": "Login successful", "success": True})
     return jsonify({"message": "Invalid email or password", "success": False})
 
 # ----------------------------
