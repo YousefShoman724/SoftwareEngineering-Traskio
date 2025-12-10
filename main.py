@@ -18,5 +18,14 @@ def login():
         return jsonify({"message": "Login successful"})
     return jsonify({"message": "Invalid credentials"})
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')        
+    if email and password:
+        return jsonify({"message": "Signup successful"})
+    return jsonify({"message": "Signup failed"})
+
 if __name__ == "__main__":
     app.run(debug=True)
