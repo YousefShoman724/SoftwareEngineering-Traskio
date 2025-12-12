@@ -1,0 +1,5 @@
+[User] ---> (Add Task)
+[User] ---> (Edit Task)
+[User] ---> (Delete Task)
+[User] ---> (View Task)
+[Admin] ---> (Assign Task)
