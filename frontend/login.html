@@ -4,26 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
+  <link rel="stylesheet" href="/static/styles.css" />
 </head>
+
 <body>
-  <h2>Login</h2>
+  <div class="bg-shapes" aria-hidden="true">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+  </div>
 
-  <form method="POST" action="/login">
-    <label>Email:</label><br />
-    <input type="email" name="email" placeholder="Enter email" required /><br /><br />
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <label>Password:</label><br />
-    <input type="password" name="password" placeholder="Enter password" required /><br /><br />
+  <main class="page">
+    <section class="card">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h2>WorkFlow Manager</h2>
+          <div class="sub">Manage projects, clients, and deadlines — all in one place.</div>
+        </div>
+      </div>
 
-    <button type="submit">Login</button>
-  </form>
+      <div class="badge">
+        <span class="dot"></span>
+        <span>You can do it — one milestone at a time ✨</span>
+      </div>
 
-  <p>Don't have an account? <a href="/signup_page">Signup here</a></p>
+      <div class="pill-row">
+        <span class="pill">Plan</span>
+        <span class="pill">Track</span>
+        <span class="pill">Deliver</span>
+        <span class="pill">Grow your business</span>
+      </div>
+
+      <form class="form" method="POST" action="/login">
+        <div class="field">
+          <label>Email</label>
+          <input class="input" type="email" name="email" placeholder="Enter your work email" required />
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input class="input" type="password" name="password" placeholder="Enter password" required />
+        </div>
+
+        <div class="row">
+          <span class="mini">New here?</span>
+          <a class="link" href="/signup_page">Create an account</a>
+        </div>
+
+        <button class="btn" type="submit">Login</button>
+
+        <div class="footer">
+          Stay focused. Keep projects moving ✅
+        </div>
+      </form>
+    </section>
+  </main>
 
   <script>
-    // show message from ?msg=
     const msg = new URLSearchParams(window.location.search).get("msg");
-    if (msg) alert(msg);
+    if (msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+
+      const isError = /invalid|missing|match|exists|error/i.test(msg);
+      toast.classList.add("show", isError ? "error" : "ok");
+
+      setTimeout(() => toast.classList.remove("show"), 3200);
+      setTimeout(() => toast.classList.remove("error", "ok"), 3600);
+    }
   </script>
 </body>
 </html>

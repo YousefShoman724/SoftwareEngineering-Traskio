@@ -49,6 +49,11 @@ def norm_email(email: str) -> str:
 def home():
     return send_from_directory(FRONTEND_DIR, "login.html")
 
+# ✅ NEW: serve styles.css
+@app.route("/styles.css")
+def styles():
+    return send_from_directory(FRONTEND_DIR, "styles.css")
+
 @app.route("/signup_page")
 def signup_page():
     return send_from_directory(FRONTEND_DIR, "signup.html")
