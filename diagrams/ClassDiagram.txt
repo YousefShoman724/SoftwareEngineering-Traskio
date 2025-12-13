@@ -1,0 +1,24 @@
+Class Diagram for Traskio
+
+Classes:
+
+- User
+  - Attributes: id, email, password
+  - Methods: login(), logout(), signup()
+
+- Task
+  - Attributes: id, title, description, assigned_to, status
+  - Methods: add_task(), edit_task(), delete_task(), assign_task()
+
+- FlaskApp
+  - Attributes: users_file, tasks_file, secret_key, session
+  - Methods:
+    - load_users(), save_users()
+    - load_tasks(), save_tasks()
+    - signup(), login(), logout(), dashboard(), me()
+    - get_tasks(), add_task(), edit_task(), delete_task()
+
+Relationships:
+- FlaskApp reads/writes User data (users.json)
+- FlaskApp reads/writes Task data (tasks.json)
+- Task is assigned_to User

@@ -1,21 +1,38 @@
 Project Name: Traskio Task Manager
+
 Description:
-A web-based application for task management. Users can add, edit, delete, view tasks. Admins can assign tasks to users.
+Traskio is a web-based task management application that allows users to sign up, log in, and manage their tasks through a personal dashboard. Users can create, edit, delete, assign, and view tasks in a simple and user-friendly interface. The system uses session-based authentication to protect user data and restrict access to authorized users only.
+
+Actors:
+- Guest: A user who is not logged in.
+- User: A registered and logged-in user.
 
 Functional Requirements:
-1. User authentication and authorization
-2. CRUD operations for tasks
-3. Admin task assignment
-4. View task list by user/project
+FR-01: The system shall allow a guest to sign up using an email and password.
+FR-02: The system shall validate that the password and confirmation password match during signup.
+FR-03: The system shall prevent registration using an already existing email.
+FR-04: The system shall allow a registered user to log in with valid credentials.
+FR-05: The system shall reject login attempts with invalid credentials.
+FR-06: The system shall allow a logged-in user to access a protected dashboard.
+FR-07: The system shall allow a user to create a new task.
+FR-08: The system shall allow a user to edit an existing task.
+FR-09: The system shall allow a user to delete a task.
+FR-10: The system shall allow a user to assign a task to a user by email.
+FR-11: The system shall allow a user to view a list of their assigned tasks.
+FR-12: The system shall allow a logged-in user to log out and clear the session.
 
-Non-functional Requirements:
-1. Web-based (Flask)
-2. Database: SQLite
-3. Simple and intuitive UI
-4. Responsive and mobile-friendly
+Non-Functional Requirements:
+NFR-01: The application shall be web-based and accessible through a browser.
+NFR-02: User passwords shall be stored securely using hashing.
+NFR-03: The system shall provide fast response time for user actions.
+NFR-04: The user interface shall be simple, clear, and user-friendly.
+NFR-05: The system shall restrict access to protected pages unless the user is authenticated.
 
-Technologies:
-- Python 3.13
-- Flask
-- SQLite
-- HTML/CSS/JS
+Data Storage:
+- User data (email and hashed password) shall be stored in a file named "users.json".
+- Task data (task id, title, description, status, assigned user) shall be stored in a file named "tasks.json".
+
+Assumptions and Constraints:
+- The application uses Flask as the backend framework.
+- Data is stored locally using JSON files.
+- The application is intended for educational purposes.

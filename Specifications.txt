@@ -1,0 +1,20 @@
+Project: Traskio Task Manager Phase 2
+
+Functional Requirements:
+- User authentication (Sign Up, Login, Logout)
+- Dashboard display with task list
+- Task management (Create, Update, Delete)
+- Frontend UI using HTML/CSS/JS
+- Backend API using Flask
+
+Non-Functional Requirements:
+- Sessions for logged in users
+- Passwords hashed
+- Prevent caching of pages
+- Organized folder structure
+
+Dependencies:
+- Flask 3.1.2
+- Flask-CORS 6.0.1
+- Werkzeug 3.1.4
+- Gunicorn 22.0.0

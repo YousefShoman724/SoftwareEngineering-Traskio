@@ -1,3 +1,5 @@
+Class Diagram — Traskio Task Manager
+
 Class Task
 - task_id: int
 - title: str

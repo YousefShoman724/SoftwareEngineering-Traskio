@@ -32,20 +32,59 @@
         "title": "task 1",
         "description": "software engineering ",
         "assigned_to": "behairymariam@gmail.com",
-        "status": "Completed"
+        "status": "Pending"
     },
     {
         "id": 6,
         "title": "task 2",
         "description": "sw",
         "assigned_to": "behairymariam@gmail.com",
-        "status": "Completed"
+        "status": "In Progress"
     },
     {
         "id": 7,
         "title": "3",
         "description": "sw",
         "assigned_to": "behairymariam@gmail.com",
-        "status": "Pending"
+        "status": "Completed"
+    },
+    {
+        "id": 8,
+        "title": "1",
+        "description": "2",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "In Progress"
+    },
+    {
+        "id": 9,
+        "title": "1",
+        "description": "x",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "In Progress",
+        "sub_tasks": []
+    },
+    {
+        "id": 10,
+        "title": "1",
+        "description": "2",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "Pending",
+        "sub_tasks": []
+    },
+    {
+        "id": 11,
+        "title": "1",
+        "description": "w",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "Pending",
+        "sub_tasks": []
+    },
+    {
+        "id": 12,
+        "title": "2",
+        "description": "1",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "Pending",
+        "sub_tasks": []
     }
 ]

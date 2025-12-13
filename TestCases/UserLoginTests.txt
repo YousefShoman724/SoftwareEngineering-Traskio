@@ -1,0 +1,26 @@
+User Login Test Cases
+
+Test Case UL-01: Login with Valid Credentials
+Precondition: User account exists
+Input: email="validuser@example.com", password="correctpassword"
+Expected Output: Login successful and dashboard page is displayed.
+
+Test Case UL-02: Login with Invalid Password
+Precondition: User account exists
+Input: email="validuser@example.com", password="wrongpassword"
+Expected Output: Login fails and error message is displayed.
+
+Test Case UL-03: Login with Non-Existing Email
+Precondition: User does not exist
+Input: email="unknown@example.com", password="anypassword"
+Expected Output: Login fails with invalid credentials message.
+
+Test Case UL-04: Access Dashboard Without Login
+Precondition: User is not logged in
+Input: Direct access to /dashboard
+Expected Output: User is redirected to login page.
+
+Test Case UL-05: Logout
+Precondition: User is logged in
+Input: Click Logout button
+Expected Output: Session is cleared and user is redirected to login page.

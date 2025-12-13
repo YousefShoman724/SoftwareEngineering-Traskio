@@ -1,0 +1,34 @@
+API Endpoint Test Cases
+
+Test Case API-01: GET /tasks (Authorized)
+Precondition: User is logged in
+Input: GET request to /tasks
+Expected Output: HTTP 200 and list of tasks in JSON format.
+
+Test Case API-02: GET /tasks (Unauthorized)
+Precondition: User is not logged in
+Input: GET request to /tasks
+Expected Output: HTTP 401 Unauthorized.
+
+Test Case API-03: POST /tasks
+Precondition: User is logged in
+Input: Valid JSON task data
+Expected Output: Task created successfully with HTTP 200.
+
+Test Case API-04: PUT /tasks/{id}
+Precondition: Task exists
+Input: Updated task JSON data
+Expected Output: Task updated successfully.
+
+Test Case API-05: DELETE /tasks/{id}
+Precondition: Task exists
+Input: DELETE request
+Expected Output: Task deleted successfully.
+
+Test Case API-06: POST /login
+Input: Valid credentials
+Expected Output: Login successful and session created.
+
+Test Case API-07: POST /signup
+Input: New user credentials
+Expected Output: User registered successfully.

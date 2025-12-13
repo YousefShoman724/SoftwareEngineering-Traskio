@@ -1,0 +1,31 @@
+Task Management Test Cases
+
+Test Case TM-01: Create Task
+Precondition: User is logged in
+Input: title="New Task", description="Test task", assigned_to="user@example.com", status="Pending"
+Expected Output: Task is created successfully and displayed in task list.
+
+Test Case TM-02: Edit Task
+Precondition: Task exists
+Input: Update title, description, assigned user, and status
+Expected Output: Task details are updated successfully.
+
+Test Case TM-03: Delete Task
+Precondition: Task exists
+Input: Click Delete on task
+Expected Output: Task is removed from the task list.
+
+Test Case TM-04: Assign Task to Another User
+Precondition: Multiple users exist
+Input: Change assigned_to field
+Expected Output: Task is reassigned successfully.
+
+Test Case TM-05: Sort Tasks by Title
+Precondition: Multiple tasks exist
+Input: Click "Sort by Title"
+Expected Output: Tasks are sorted alphabetically by title.
+
+Test Case TM-06: Sort Tasks by Status
+Precondition: Multiple tasks exist
+Input: Click "Sort by Status"
+Expected Output: Tasks are sorted by status order (Pending → In Progress → Completed).

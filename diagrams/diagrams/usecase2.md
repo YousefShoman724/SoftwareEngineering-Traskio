@@ -1,7 +1,3 @@
-
-### B) `diagrams/sequence-login.md`
-```md
-```mermaid
 sequenceDiagram
   actor U as User
   participant B as Browser
@@ -13,9 +9,9 @@ sequenceDiagram
   S->>F: load_users()
   F-->>S: users list
   alt valid credentials
-    S-->>B: Redirect /dashboard
+    S-->>B: Login successful, Redirect /dashboard
     B->>S: GET /dashboard
     S-->>B: dashboard.html
-  else invalid
-    S-->>B: Redirect /
+  else invalid credentials
+    S-->>B: Login failed, Redirect /
   end
