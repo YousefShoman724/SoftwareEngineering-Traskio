@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6f8; }
+    h2, h3 { color: #333; }
+    input, select { padding: 8px; margin: 5px; border-radius: 4px; border: 1px solid #ccc; }
+    button { padding: 8px 12px; margin: 5px; border-radius: 4px; border: none; cursor: pointer; background: #4CAF50; color: white; }
+    button.delete { background: #f44336; }
+    button.edit { background: #2196F3; }
+    button.assign { background: #FF9800; }
+    .task { background: white; padding: 10px; margin: 10px 0; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .task h4 { margin: 0; }
+    .task p { margin: 5px 0; }
+  </style>
 </head>
 <body>
   <h2>Dashboard</h2>
@@ -12,6 +24,10 @@
   <h3>Add Task</h3>
   <input type="text" id="task-title" placeholder="Task title">
   <input type="text" id="task-desc" placeholder="Task description">
+  <select id="task-status">
+    <option value="In Progress">In Progress</option>
+    <option value="Completed">Completed</option>
+  </select>
   <button onclick="addTask()">Add Task</button>
 
   <h3>Your Tasks</h3>
@@ -20,15 +36,22 @@
   <p><a href="/logout">Logout</a></p>
 
   <script>
+    let allUsers = [];
+
     async function loadMe() {
       const res = await fetch("/me");
-      if (!res.ok) {
-        window.location.href = "/";
-        return;
-      }
+      if (!res.ok) { window.location.href = "/"; return; }
       const data = await res.json();
       document.getElementById("welcome").textContent = `Welcome, ${data.email} ✅`;
+      await loadUsers();
       loadTasks();
+    }
+
+    async function loadUsers() {
+      // احنا محتاجين API يجيب كل المستخدمين
+      const res = await fetch("/users"); // لازم تضيف /users بالـ backend
+      if (!res.ok) return;
+      allUsers = await res.json();
     }
 
     async function loadTasks() {
@@ -39,10 +62,17 @@
       container.innerHTML = "";
       tasks.forEach(task => {
         const div = document.createElement("div");
+        div.className = "task";
+
+        let usersOptions = allUsers.map(u => `<option value="${u.email}" ${u.email === task.assigned_to ? "selected" : ""}>${u.email}</option>`).join('');
+
         div.innerHTML = `
           <h4>${task.title}</h4>
           <p>${task.description}</p>
-          <button onclick="deleteTask(${task.id})">Delete</button>
+          <p>Status: <strong>${task.status || "In Progress"}</strong></p>
+          <button class="edit" onclick="editTask(${task.id}, '${task.title}', '${task.description}', '${task.status || "In Progress"}')">Edit</button>
+          <button class="delete" onclick="deleteTask(${task.id})">Delete</button>
+          <select onchange="assignTask(${task.id}, this.value)">${usersOptions}</select>
         `;
         container.appendChild(div);
       });
@@ -51,19 +81,45 @@
     async function addTask() {
       const title = document.getElementById("task-title").value;
       const description = document.getElementById("task-desc").value;
+      const status = document.getElementById("task-status").value;
       if (!title) return alert("Task title is required!");
       await fetch("/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description })
+        body: JSON.stringify({ title, description, status })
       });
       document.getElementById("task-title").value = "";
       document.getElementById("task-desc").value = "";
       loadTasks();
     }
 
+    async function editTask(id, title, description, status) {
+      const newTitle = prompt("Edit Title:", title);
+      if (newTitle === null) return;
+      const newDesc = prompt("Edit Description:", description);
+      if (newDesc === null) return;
+      const newStatus = prompt("Edit Status (In Progress / Completed):", status || "In Progress");
+      if (newStatus === null) return;
+
+      await fetch(`/tasks/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTitle, description: newDesc, status: newStatus })
+      });
+      loadTasks();
+    }
+
     async function deleteTask(id) {
       await fetch(`/tasks/${id}`, { method: "DELETE" });
+      loadTasks();
+    }
+
+    async function assignTask(id, userEmail) {
+      await fetch(`/tasks/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ assigned_to: userEmail })
+      });
       loadTasks();
     }
 

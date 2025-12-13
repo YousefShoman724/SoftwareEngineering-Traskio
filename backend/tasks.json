@@ -2,7 +2,15 @@
     {
         "id": 1,
         "title": "Assignment 1",
-        "description": "Software engineering assignment on moodle",
-        "assigned_to": "behairymariam@gmail.com"
+        "description": "Software engineering assignment 1 on moodle",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "In Progress"
+    },
+    {
+        "id": 2,
+        "title": "Phase 1",
+        "description": "Software engineering phase 1 of the project",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "Completed"
     }
 ]

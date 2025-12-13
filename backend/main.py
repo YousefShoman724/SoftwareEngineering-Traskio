@@ -194,9 +194,11 @@ def edit_task(task_id):
         if t["id"] == task_id:
             t["title"] = data.get("title", t["title"])
             t["description"] = data.get("description", t["description"])
+            t["status"] = data.get("status", t.get("status", "In Progress"))
             save_tasks(tasks)
             return jsonify({"success": True, "message": "Task updated successfully"})
     return jsonify({"success": False, "message": "Task not found"}), 404
+
 
 @app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
