@@ -4,7 +4,7 @@ import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_DIR = os.path.join(BASE_DIR, "../frontend")  # path to frontend
+FRONTEND_DIR = os.path.join(BASE_DIR, "../frontend")
 USERS_FILE = os.path.join(BASE_DIR, "users.json")
 TASKS_FILE = os.path.join(BASE_DIR, "tasks.json")
 
@@ -156,8 +156,8 @@ def login():
 
     msg = "Invalid email or password"
     return (jsonify({"success": False, "message": msg}), 401) if request.is_json else redirect(f"/?msg={msg}")
-# ---------------- Task APIs ----------------
 
+# ---------------- Task APIs ----------------
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
     if "user" not in session:
@@ -178,7 +178,7 @@ def add_task():
         "id": task_id,
         "title": data.get("title", ""),
         "description": data.get("description", ""),
-        "assigned_to": session["user"]
+        "assigned_to": data.get("assigned_to") or session["user"]
     }
     tasks.append(new_task)
     save_tasks(tasks)
@@ -195,10 +195,10 @@ def edit_task(task_id):
             t["title"] = data.get("title", t["title"])
             t["description"] = data.get("description", t["description"])
             t["status"] = data.get("status", t.get("status", "In Progress"))
+            t["assigned_to"] = data.get("assigned_to", t.get("assigned_to"))
             save_tasks(tasks)
             return jsonify({"success": True, "message": "Task updated successfully"})
     return jsonify({"success": False, "message": "Task not found"}), 404
-
 
 @app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
@@ -208,6 +208,14 @@ def delete_task(task_id):
     tasks = [t for t in tasks if t["id"] != task_id]
     save_tasks(tasks)
     return jsonify({"success": True, "message": "Task deleted successfully"})
+
+# ---------------- Users API ----------------
+@app.route("/users", methods=["GET"])
+def get_users():
+    if "user" not in session:
+        return jsonify([]), 401
+    users = load_users()
+    return jsonify([u["email"] for u in users])
 
 # ---------------- Run server ----------------
 if __name__ == "__main__":
