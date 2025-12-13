@@ -1,16 +1,51 @@
 [
     {
         "id": 1,
-        "title": "Assignment 1",
-        "description": "Software engineering assignment 1 on moodle",
-        "assigned_to": "behairymariam@gmail.com",
-        "status": "In Progress"
+        "title": "",
+        "description": "",
+        "assigned_to": "",
+        "status": "Pending"
     },
     {
         "id": 2,
-        "title": "Phase 1",
-        "description": "Software engineering phase 1 of the project",
+        "title": "",
+        "description": "",
+        "assigned_to": "",
+        "status": "Completed"
+    },
+    {
+        "id": 3,
+        "title": "",
+        "description": "",
+        "assigned_to": "",
+        "status": "Pending"
+    },
+    {
+        "id": 4,
+        "title": "",
+        "description": "",
+        "assigned_to": "",
+        "status": "Pending"
+    },
+    {
+        "id": 5,
+        "title": "task 1",
+        "description": "software engineering ",
         "assigned_to": "behairymariam@gmail.com",
         "status": "Completed"
+    },
+    {
+        "id": 6,
+        "title": "task 2",
+        "description": "sw",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "Completed"
+    },
+    {
+        "id": 7,
+        "title": "3",
+        "description": "sw",
+        "assigned_to": "behairymariam@gmail.com",
+        "status": "Pending"
     }
 ]

@@ -1,129 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6f8; }
-    h2, h3 { color: #333; }
-    input, select { padding: 8px; margin: 5px; border-radius: 4px; border: 1px solid #ccc; }
-    button { padding: 8px 12px; margin: 5px; border-radius: 4px; border: none; cursor: pointer; background: #4CAF50; color: white; }
-    button.delete { background: #f44336; }
-    button.edit { background: #2196F3; }
-    button.assign { background: #FF9800; }
-    .task { background: white; padding: 10px; margin: 10px 0; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .task h4 { margin: 0; }
-    .task p { margin: 5px 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #2f3640;
+    }
+
+    .logout-btn {
+      background: #e84118;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+    }
+
+    .logout-btn:hover { opacity: 0.9; }
+
+    .form-box {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .form-box input, .form-box select, .form-box button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .form-box button {
+      background: #273c75;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .form-box button:hover { opacity: 0.9; }
+
+    .task-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .task-card b {
+      font-size: 16px;
+      color: #192a56;
+    }
+
+    .task-card input, .task-card select {
+      width: 95%;
+      padding: 5px;
+      margin: 3px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .task-card button {
+      margin-top: 5px;
+      margin-right: 5px;
+      background: #44bd32;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .task-card button:hover { opacity: 0.9; }
+
+    .task-card .delete-btn {
+      background: #e84118;
+    }
+
+    .task-card .edit-btn {
+      background: #40739e;
+    }
+
+    .task-card .cancel-btn {
+      background: #718093;
+    }
+
+    .task-actions {
+      margin-top: 5px;
+    }
+
+    /* Search & Filter box */
+    .filter-box {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-box input, .filter-box select {
+      flex: 1;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .filter-box button {
+      background: #273c75;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .filter-box button:hover { opacity: 0.9; }
   </style>
 </head>
 <body>
-  <h2>Dashboard</h2>
-  <p id="welcome">Loading...</p>
 
-  <h3>Add Task</h3>
-  <input type="text" id="task-title" placeholder="Task title">
-  <input type="text" id="task-desc" placeholder="Task description">
-  <select id="task-status">
+<h2>Dashboard</h2>
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+<div class="form-box">
+  <input id="title" placeholder="Task title">
+  <input id="desc" placeholder="Description">
+  <input id="assigned_to" placeholder="Assign To (email)">
+  <select id="status">
+    <option value="Pending">Pending</option>
     <option value="In Progress">In Progress</option>
     <option value="Completed">Completed</option>
   </select>
   <button onclick="addTask()">Add Task</button>
+</div>
 
-  <h3>Your Tasks</h3>
-  <div id="tasks-container"></div>
+<!-- Search & Filter -->
+<div class="filter-box">
+  <input id="search" placeholder="Search by title or description">
+  <select id="filter-status">
+    <option value="">All Status</option>
+    <option value="Pending">Pending</option>
+    <option value="In Progress">In Progress</option>
+    <option value="Completed">Completed</option>
+  </select>
+  <button onclick="applyFilter()">Apply</button>
+</div>
 
-  <p><a href="/logout">Logout</a></p>
+<div id="tasks"></div>
 
-  <script>
-    let allUsers = [];
+<script>
+let allTasks = []; // حفظ كل المهام
 
-    async function loadMe() {
-      const res = await fetch("/me");
-      if (!res.ok) { window.location.href = "/"; return; }
-      const data = await res.json();
-      document.getElementById("welcome").textContent = `Welcome, ${data.email} ✅`;
-      await loadUsers();
-      loadTasks();
-    }
+async function loadTasks(){
+  let r = await fetch("/tasks");
+  allTasks = await r.json();
+  displayTasks(allTasks);
+}
 
-    async function loadUsers() {
-      // احنا محتاجين API يجيب كل المستخدمين
-      const res = await fetch("/users"); // لازم تضيف /users بالـ backend
-      if (!res.ok) return;
-      allUsers = await res.json();
-    }
+function displayTasks(tasks){
+  const container = document.getElementById("tasks");
+  container.innerHTML = "";
 
-    async function loadTasks() {
-      const res = await fetch("/tasks");
-      if (!res.ok) return;
-      const tasks = await res.json();
-      const container = document.getElementById("tasks-container");
-      container.innerHTML = "";
-      tasks.forEach(task => {
-        const div = document.createElement("div");
-        div.className = "task";
+  // Sort by ID ascending
+  tasks.sort((a,b)=>a.id-b.id);
 
-        let usersOptions = allUsers.map(u => `<option value="${u.email}" ${u.email === task.assigned_to ? "selected" : ""}>${u.email}</option>`).join('');
+  tasks.forEach(x=>{
+    // Assign color based on status
+    let statusColor;
+    if(x.status === "Pending") statusColor = "#fbc531"; 
+    else if(x.status === "In Progress") statusColor = "#00a8ff"; 
+    else if(x.status === "Completed") statusColor = "#44bd32"; 
 
-        div.innerHTML = `
-          <h4>${task.title}</h4>
-          <p>${task.description}</p>
-          <p>Status: <strong>${task.status || "In Progress"}</strong></p>
-          <button class="edit" onclick="editTask(${task.id}, '${task.title}', '${task.description}', '${task.status || "In Progress"}')">Edit</button>
-          <button class="delete" onclick="deleteTask(${task.id})">Delete</button>
-          <select onchange="assignTask(${task.id}, this.value)">${usersOptions}</select>
-        `;
-        container.appendChild(div);
-      });
-    }
+    container.innerHTML += `
+      <div class="task-card" id="task-${x.id}">
+        <b>Title:</b> <input value="${x.title}" id="title-${x.id}" disabled><br>
+        <b>Description:</b> <input value="${x.description}" id="desc-${x.id}" disabled><br>
+        <b>Assign To:</b> <input value="${x.assigned_to}" id="assign-${x.id}" disabled><br>
+        <b>Status:</b>
+        <select id="status-${x.id}" disabled style="background:${statusColor};color:#fff;">
+          <option value="Pending" ${x.status==="Pending"?"selected":""}>Pending</option>
+          <option value="In Progress" ${x.status==="In Progress"?"selected":""}>In Progress</option>
+          <option value="Completed" ${x.status==="Completed"?"selected":""}>Completed</option>
+        </select>
+        <div class="task-actions">
+          <button class="edit-btn" onclick="editTask(${x.id})">Edit</button>
+          <button class="cancel-btn" onclick="cancelEdit(${x.id})" style="display:none;">Cancel</button>
+          <button class="delete-btn" onclick="deleteTask(${x.id})">Delete</button>
+          <button class="update-btn" onclick="updateTask(${x.id})" style="display:none;">Update</button>
+        </div>
+      </div>
+    `;
+  });
+}
 
-    async function addTask() {
-      const title = document.getElementById("task-title").value;
-      const description = document.getElementById("task-desc").value;
-      const status = document.getElementById("task-status").value;
-      if (!title) return alert("Task title is required!");
-      await fetch("/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, status })
-      });
-      document.getElementById("task-title").value = "";
-      document.getElementById("task-desc").value = "";
-      loadTasks();
-    }
+function applyFilter(){
+  const searchVal = document.getElementById("search").value.toLowerCase();
+  const statusVal = document.getElementById("filter-status").value;
 
-    async function editTask(id, title, description, status) {
-      const newTitle = prompt("Edit Title:", title);
-      if (newTitle === null) return;
-      const newDesc = prompt("Edit Description:", description);
-      if (newDesc === null) return;
-      const newStatus = prompt("Edit Status (In Progress / Completed):", status || "In Progress");
-      if (newStatus === null) return;
+  const filtered = allTasks.filter(task=>{
+    const matchesSearch = task.title.toLowerCase().includes(searchVal) || task.description.toLowerCase().includes(searchVal);
+    const matchesStatus = statusVal ? task.status === statusVal : true;
+    return matchesSearch && matchesStatus;
+  });
 
-      await fetch(`/tasks/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: newTitle, description: newDesc, status: newStatus })
-      });
-      loadTasks();
-    }
+  displayTasks(filtered);
+}
 
-    async function deleteTask(id) {
-      await fetch(`/tasks/${id}`, { method: "DELETE" });
-      loadTasks();
-    }
+async function addTask(){
+  let title = document.getElementById("title").value;
+  let desc = document.getElementById("desc").value;
+  let assigned_to = document.getElementById("assigned_to").value;
+  let status = document.getElementById("status").value;
 
-    async function assignTask(id, userEmail) {
-      await fetch(`/tasks/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ assigned_to: userEmail })
-      });
-      loadTasks();
-    }
+  if(!title) return alert("Title required");
 
-    loadMe();
-  </script>
+  await fetch("/tasks",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({title, description:desc, assigned_to, status})
+  });
+
+  document.getElementById("title").value="";
+  document.getElementById("desc").value="";
+  document.getElementById("assigned_to").value="";
+  document.getElementById("status").value="Pending";
+
+  loadTasks();
+}
+
+function editTask(id){
+  document.getElementById(`title-${id}`).disabled = false;
+  document.getElementById(`desc-${id}`).disabled = false;
+  document.getElementById(`assign-${id}`).disabled = false;
+  document.getElementById(`status-${id}`).disabled = false;
+
+  document.querySelector(`#task-${id} .edit-btn`).style.display="none";
+  document.querySelector(`#task-${id} .cancel-btn`).style.display="inline-block";
+  document.querySelector(`#task-${id} .update-btn`).style.display="inline-block";
+}
+
+function cancelEdit(id){
+  loadTasks();
+}
+
+async function updateTask(id){
+  let title = document.getElementById(`title-${id}`).value;
+  let desc = document.getElementById(`desc-${id}`).value;
+  let assigned_to = document.getElementById(`assign-${id}`).value;
+  let status = document.getElementById(`status-${id}`).value;
+
+  await fetch(`/tasks/${id}`,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({title, description:desc, assigned_to, status})
+  });
+
+  loadTasks();
+}
+
+async function deleteTask(id){
+  await fetch(`/tasks/${id}`,{
+    method:"DELETE"
+  });
+  loadTasks();
+}
+
+async function logout(){
+  await fetch("/logout");
+  location="/";
+}
+
+// Initial load
+loadTasks();
+</script>
+
 </body>
 </html>

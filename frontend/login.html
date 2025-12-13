@@ -1,29 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
+  <style>
+    body { font-family: Arial; background:#f5f6fa; }
+    .box { width:300px; margin:100px auto; background:#fff; padding:20px; border-radius:8px; }
+    input, button { width:100%; padding:10px; margin:10px 0; }
+    button { background:#273c75; color:#fff; border:none; }
+  </style>
 </head>
 <body>
-  <h2>Login</h2>
+  <div class="box">
+    <h3>Login</h3>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <a href="/signup_page">Signup</a>
+  </div>
 
-  <form method="POST" action="/login">
-    <label>Email:</label><br />
-    <input type="email" name="email" placeholder="Enter email" required /><br /><br />
-
-    <label>Password:</label><br />
-    <input type="password" name="password" placeholder="Enter password" required /><br /><br />
-
-    <button type="submit">Login</button>
-  </form>
-
-  <p>Don't have an account? <a href="/signup_page">Signup here</a></p>
-
-  <script>
-    // show message from ?msg=
-    const msg = new URLSearchParams(window.location.search).get("msg");
-    if (msg) alert(msg);
-  </script>
+<script>
+async function login(){
+  let res = await fetch("/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      email:email.value,
+      password:password.value
+    })
+  });
+  
+  let data = await res.json();
+  if(data.success){
+    location.href = "/dashboard"; // redirect properly
+  } else {
+    alert(data.message || "Invalid login");
+  }
+}
+</script>
 </body>
 </html>

@@ -1,31 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Signup</title>
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .signup-box {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 350px;
+    }
+
+    .signup-box h2 {
+      text-align: center;
+      color: #2f3640;
+      margin-bottom: 25px;
+    }
+
+    .signup-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .signup-box button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #273c75;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .signup-box button:hover {
+      opacity: 0.9;
+    }
+
+    .signup-box .login-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #40739e;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .signup-box .login-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h2>Signup</h2>
 
-  <form method="POST" action="/signup">
-    <label>Email:</label><br />
-    <input type="email" name="email" placeholder="Enter email" required /><br /><br />
+<div class="signup-box">
+  <h2>Create Account</h2>
+  <input id="email" type="email" placeholder="Email" required>
+  <input id="password" type="password" placeholder="Password" required>
+  <input id="confirm" type="password" placeholder="Confirm Password" required>
+  <button onclick="signup()">Sign Up</button>
+  <a class="login-link" href="/">Already have an account? Login</a>
+</div>
 
-    <label>Password:</label><br />
-    <input type="password" name="password" placeholder="Enter password" required /><br /><br />
+<script>
+async function signup(){
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+  let confirm = document.getElementById("confirm").value;
 
-    <label>Confirm Password:</label><br />
-    <input type="password" name="confirm_password" placeholder="Confirm password" required /><br /><br />
+  if(!email || !password) return alert("Email and Password are required");
+  if(password !== confirm) return alert("Passwords do not match");
 
-    <button type="submit">Signup</button>
-  </form>
+  let res = await fetch("/signup",{
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email, password, confirm_password: confirm})
+  });
 
-  <p>Already have an account? <a href="/">Login here</a></p>
+  let data = await res.json();
+  alert(data.message);
 
-  <script>
-    const msg = new URLSearchParams(window.location.search).get("msg");
-    if (msg) alert(msg);
-  </script>
+  if(data.success) location="/";
+}
+</script>
+
 </body>
 </html>
