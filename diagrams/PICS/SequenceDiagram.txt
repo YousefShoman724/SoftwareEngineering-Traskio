@@ -1,0 +1,8 @@
+sequenceDiagram
+    participant User
+    participant Task
+    participant Project
+
+    User ->> Task: add_task()
+    Task ->> Project: update_task_list()
+    Project ->> User: confirmation

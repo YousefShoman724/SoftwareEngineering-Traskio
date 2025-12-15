@@ -11,7 +11,7 @@ class TestAuth(unittest.TestCase):
     def setUp(self):
         app.config.update(TESTING=True, SECRET_KEY="test-secret")
 
-        # Temp users file (does NOT touch your real users.json)
+        # Temporary users file (does NOT touch the real users.json)
         self.tmpdir = tempfile.TemporaryDirectory()
         self.temp_users_file = os.path.join(self.tmpdir.name, "users.json")
         with open(self.temp_users_file, "w", encoding="utf-8") as f:
