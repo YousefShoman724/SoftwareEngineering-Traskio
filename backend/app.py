@@ -1,85 +1,88 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
+import json
+import os
 
 app = Flask(__name__)
+CORS(app)
 
-# In-memory task storage
-tasks = []
-next_id = 1  # Auto-increment ID for tasks
+TASKS_FILE = "tasks.json"
 
+# =======================
+# Helpers
+# =======================
+def load_tasks():
+    if not os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE, "w") as f:
+            json.dump([], f)
+    with open(TASKS_FILE, "r") as f:
+        return json.load(f)
+
+def save_tasks(tasks):
+    with open(TASKS_FILE, "w") as f:
+        json.dump(tasks, f, indent=4)
+
+def get_next_id(tasks):
+    return max([t["id"] for t in tasks], default=0) + 1
+
+# =======================
+# Routes
+# =======================
+
+# Serve dashboard
+@app.route("/")
+def index():
+    return send_from_directory(os.getcwd(), "index.html")
 
 # Get all tasks
-@app.route('/tasks', methods=['GET'])
+@app.route("/tasks", methods=["GET"])
 def get_tasks():
-    return jsonify(tasks), 200
+    return jsonify(load_tasks())
 
-
-# Add a new task
-@app.route('/tasks', methods=['POST'])
+# Add task
+@app.route("/tasks", methods=["POST"])
 def add_task():
-    global next_id
     data = request.json
+    tasks = load_tasks()
 
-    # Validate required fields
-    required_fields = ['title', 'description', 'assigned_to', 'status']
-    for field in required_fields:
-        if field not in data or not data[field]:
-            return jsonify({"error": f"{field} is required"}), 400
-
-    # Create task object
     task = {
-        "id": next_id,
-        "title": data['title'],
-        "description": data['description'],
-        "assigned_to": data['assigned_to'],
-        "status": data['status']
+        "id": get_next_id(tasks),
+        "title": data.get("title", ""),
+        "description": data.get("description", ""),
+        "assigned_to": data.get("assigned_to", ""),
+        "status": data.get("status", "Pending")
     }
+
+    if not task["title"]:
+        return jsonify({"error": "Title is required"}), 400
+
     tasks.append(task)
-    next_id += 1
+    save_tasks(tasks)
 
-    return jsonify({"message": "Task added successfully", "task": task}), 201
+    return jsonify(task), 201
 
-
-# Update an existing task
-@app.route('/tasks/<int:task_id>', methods=['PUT'])
+# Update task
+@app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
+    tasks = load_tasks()
     data = request.json
-    task = next((t for t in tasks if t['id'] == task_id), None)
-    if not task:
-        return jsonify({"error": "Task not found"}), 404
 
-    # Update allowed fields
-    for key in ['title', 'description', 'assigned_to', 'status']:
-        if key in data:
-            task[key] = data[key]
+    for task in tasks:
+        if task["id"] == task_id:
+            task.update(data)
+            save_tasks(tasks)
+            return jsonify(task)
 
-    return jsonify({"message": "Task updated successfully", "task": task}), 200
+    return jsonify({"error": "Task not found"}), 404
 
-
-# Delete a task
-@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+# Delete task
+@app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
-    global tasks
-    task = next((t for t in tasks if t['id'] == task_id), None)
-    if not task:
-        return jsonify({"error": "Task not found"}), 404
+    tasks = load_tasks()
+    tasks = [t for t in tasks if t["id"] != task_id]
+    save_tasks(tasks)
+    return jsonify({"message": "Deleted"}), 200
 
-    tasks = [t for t in tasks if t['id'] != task_id]
-    return jsonify({"message": "Task deleted successfully"}), 200
-
-
-# Simple login/logout simulation
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    if data.get("username") == "user1" and data.get("password") == "pass123":
-        return jsonify({"message": "Login successful"}), 200
-    return jsonify({"error": "Invalid credentials"}), 401
-
-
-@app.route('/logout', methods=['POST'])
-def logout():
-    return jsonify({"message": "Logout successful"}), 200
-
-
-if __name__ == '__main__':
+# =======================
+if __name__ == "__main__":
     app.run(debug=True)

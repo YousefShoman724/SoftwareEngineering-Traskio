@@ -1,7 +1,0 @@
-Sequence Diagram: User Login
-
-Login Sequence:
-User -> Frontend: enters email & password
-Frontend -> Backend: send login request
-Backend -> Users.json: validate credentials
-Backend -> Frontend: send login success/failure

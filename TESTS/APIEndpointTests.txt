@@ -1,0 +1,11 @@
+# API Endpoint Test Cases — Traskio Phase 2
+
+| Test Case ID | Endpoint        | Precondition        | Input                    | Expected Output                                   |
+|--------------|----------------|------------------|-------------------------|--------------------------------------------------|
+| API-01       | GET /tasks      | User is logged in | GET request to /tasks    | HTTP 200 OK and list of tasks in JSON format    |
+| API-02       | GET /tasks      | User is not logged in | GET request to /tasks | HTTP 401 Unauthorized                            |
+| API-03       | POST /tasks     | User is logged in | Valid JSON task data     | Task created successfully with HTTP 200 OK      |
+| API-04       | PUT /tasks/{id} | Task exists       | Updated task JSON data   | Task updated successfully                        |
+| API-05       | DELETE /tasks/{id} | Task exists    | DELETE request           | Task deleted successfully                        |
+| API-06       | POST /login    | N/A               | Valid credentials        | Login successful and session created            |
+| API-07       | POST /signup   | N/A               | New user credentials     | User registered successfully                     |

@@ -168,7 +168,14 @@ def add_task():
         "title": data.get("title"),
         "description": data.get("description", ""),
         "assigned_to": data.get("assigned_to") or session["user"],
-        "status": "Pending"
+        "status": data.get("status", "Pending"),
+        "deadline": data.get("deadline"),
+        "priority": data.get("priority", "Medium"),
+        "tags": data.get("tags", []),
+        "subtasks": [],
+        "comments": [],
+        "createdAt": data.get("createdAt"),
+        "timeTracked": 0
     }
     tasks.append(new_task)
     save_tasks(tasks)
@@ -186,6 +193,12 @@ def edit_task(task_id):
             t["description"] = data.get("description", t["description"])
             t["status"] = data.get("status", t.get("status", "In Progress"))
             t["assigned_to"] = data.get("assigned_to", t.get("assigned_to"))
+            t["deadline"] = data.get("deadline", t.get("deadline"))
+            t["priority"] = data.get("priority", t.get("priority", "Medium"))
+            t["tags"] = data.get("tags", t.get("tags", []))
+            t["subtasks"] = data.get("subtasks", t.get("subtasks", []))
+            t["comments"] = data.get("comments", t.get("comments", []))
+            t["timeTracked"] = data.get("timeTracked", t.get("timeTracked", 0))
             save_tasks(tasks)
             return jsonify({"success": True, "message": "Task updated successfully"})
     return jsonify({"success": False, "message": "Task not found"}), 404

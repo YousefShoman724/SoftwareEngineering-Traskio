@@ -1,96 +1,116 @@
-# Traskio - Task Management Application (Beta)
+# Traskio - Task Management Application
 
-Traskio is a task management application that helps users organize, manage, and track their tasks efficiently. The system allows users to sign up, log in, and manage tasks through a protected dashboard.
+Traskio is a modern task management application that helps users organize, manage, and track their tasks efficiently. The system provides a secure and interactive dashboard with real-time updates, sub-task support, and dynamic progress tracking.
 
 ## Overview
 
-Traskio provides a simple and effective way to manage tasks. Users can create, edit, delete, assign, and track tasks with different statuses such as Pending, In Progress, and Completed. Access to the dashboard is restricted to authenticated users only.
+Traskio offers a simple yet powerful way to manage daily tasks. Users can sign up, log in, and access a protected dashboard where they can create, edit, delete, and assign tasks. Each task can include sub-tasks, deadlines, and status tracking (Pending, In Progress, Completed). All sensitive areas are restricted to authenticated users only.
 
-## Key Features
 
-- User signup and login  
-- Secure password handling (hashed passwords)  
-- Protected dashboard (login required)  
-- Add, edit, delete, and assign tasks  
-- View task list with status tracking  
-- Task status categories: Pending, In Progress, Completed  
-- Search and filter tasks  
-- User logout with session clearing  
-- Automated unit testing  
-- Continuous Integration using GitHub Actions  
+### User Management
+- User signup and login
+- Secure password hashing
+- Password strength indicator during signup
+- Session-based authentication
+- Protected dashboard (login required)
+- User logout with session clearing
+
+
+### Task Management
+- Add, edit, delete, and assign tasks
+- Sub-tasks with individual completion tracking
+- Dynamic progress bars based on sub-task completion
+- Task deadlines with automatic sorting
+- Task status categories: Pending, In Progress, Completed
+- Color-coded task cards based on status
+- Search and filter tasks by title, description, and status
+- Real-time updates without page refresh
+
+### UI / UX
+- Modern and clean user interface
+- Glassmorphism design with smooth animations
+- Fully responsive design (desktop, tablet, mobile)
+
+### Development & Quality
+- Automated unit testing using Python `unittest`
+- Continuous Integration using GitHub Actions
+- Clear project structure following software engineering best practices
+
 
 ## Tools and Technologies
 
-- Backend: Python (Flask)  
-- Frontend: HTML, CSS, JavaScript  
-- Data Storage: users.json for user accounts, tasks.json for task data  
-- Testing: Python unittest  
-- CI/CD: GitHub Actions  
+- Backend: Python (Flask)
+- Frontend: HTML, CSS, JavaScript
+- Data Storage:
+  - `backend/users.json` for user accounts
+  - `backend/tasks.json` for tasks data
+- Testing: Python `unittest`
+- CI/CD: GitHub Actions
 
-## Project Structure
 
-SoftwareEngineering-Traskio/
-├── backend/
-│   ├── main.py
-│   ├── users.json
-│   └── tasks.json
-├── frontend/
-│   └── .gitkeep
-├── diagrams/
-│   ├── SequenceDiagram.txt
-│   └── ClassDiagram.txt
-├── docs/
-│   ├── requirements.md
-│   ├── specifications.md
-│   ├── test-cases.md
-│   └── scrum/
-│       └── 2025-12-12.md
-├── tests/
-│   └── test_main.py
-├── README.md
-└── requirements.txt
 
 ## How to Run Locally
 
 1. Clone the repository  
-git clone https://github.com/your-repo/Traskio.git  
+```
+git clone https://github.com/your-repo/Traskio.git
+```
 
 2. Navigate to the project directory  
-cd TraskioPhase2/SoftwareEngineering-Traskio  
+```
+cd TraskioPhase2/SoftwareEngineering-Traskio
+```
 
 3. Create a virtual environment  
-python -m venv venv  
+```
+python -m venv venv
+```
 
 4. Activate the virtual environment  
-Windows CMD: venv\Scripts\activate.bat  
-PowerShell: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; venv\Scripts\Activate.ps1  
+```
+Windows CMD: venv\Scripts\activate.bat
+PowerShell: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; venv\Scripts\Activate.ps1
+```
 
 5. Install dependencies  
-pip install -r requirements.txt  
+```
+pip install -r requirements.txt
+```
 
 6. Run the application  
-python backend/main.py  
+```
+python backend/main.py
+```
 
 Open your browser and go to http://127.0.0.1:5000/
 
 ## Testing
 
-To run unit tests:  
-python -m unittest discover tests  
+Run unit tests using:
+```
+python -m unittest discover tests```
 
-The tests cover user signup, user login, invalid login attempts, dashboard access control, and session handling.
+The tests cover:
+- User signup
+- User login
+- Invalid login attempts
+- Dashboard access control
+- Session handling
 
 ## Documentation
 
-Requirements: docs/requirements.md  
-Specifications: docs/specifications.md  
-Test Cases: docs/test-cases.md  
-Scrum Meetings: docs/scrum/  
-Diagrams: Use Case, Sequence Diagram, Class Diagram, Deployment Diagram  
+- Requirements: `docs/requirements.md`
+- Specifications: `docs/specifications.md`
+- Test Cases: `docs/test-cases.md`
+- Scrum Meetings: `docs/scrum/`
+- Diagrams:
+  - Use Case Diagram
+  - Sequence Diagram
+  - Class Diagram
+  - Deployment Diagram
 
 ## Author
 
-Developed by: 
-**Yousef Wael Shoman**
+Developed by:  
+**Yousef Wael Shoman**  
 **Mariam Mohamed Behairy**
-
