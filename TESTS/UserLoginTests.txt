@@ -1,26 +1,127 @@
-User Login Test Cases
+User Login Tests
 
-Test Case UL-01: Login with Valid Credentials
-Precondition: User account exists
-Input: email="validuser@example.com", password="correctpassword"
-Expected Output: Login successful and dashboard page is displayed.
+Test Case 1: Login with Valid Credentials
+Test Case ID: UL-01
+Description: Verify that the user can log in using valid email and password.
+Precondition: User is already registered in the system.
 
-Test Case UL-02: Login with Invalid Password
-Precondition: User account exists
-Input: email="validuser@example.com", password="wrongpassword"
-Expected Output: Login fails and error message is displayed.
+Steps:
+1. Open the login page.
+2. Enter a valid email address.
+3. Enter the correct password.
+4. Click the Login button.
 
-Test Case UL-03: Login with Non-Existing Email
-Precondition: User does not exist
-Input: email="unknown@example.com", password="anypassword"
-Expected Output: Login fails with invalid credentials message.
+Expected Result:
+- User is successfully logged in.
+- User is redirected to the dashboard.
 
-Test Case UL-04: Access Dashboard Without Login
-Precondition: User is not logged in
-Input: Direct access to /dashboard
-Expected Output: User is redirected to login page.
 
-Test Case UL-05: Logout
-Precondition: User is logged in
-Input: Click Logout button
-Expected Output: Session is cleared and user is redirected to login page.
+Test Case 2: Login with Invalid Password
+Test Case ID: UL-02
+Description: Verify system behavior when an incorrect password is entered.
+Precondition: User is already registered.
+
+Steps:
+1. Open the login page.
+2. Enter a valid email address.
+3. Enter an incorrect password.
+4. Click the Login button.
+
+Expected Result:
+- Login fails.
+- Error message is displayed indicating invalid credentials.
+
+
+Test Case 3: Login with Unregistered Email
+Test Case ID: UL-03
+Description: Verify login attempt using an email that is not registered.
+Precondition: Email does not exist in the system.
+
+Steps:
+1. Open the login page.
+2. Enter an unregistered email address.
+3. Enter any password.
+4. Click the Login button.
+
+Expected Result:
+- Login fails.
+- Error message is displayed.
+
+
+Test Case 4: Login with Empty Fields
+Test Case ID: UL-04
+Description: Verify validation when login fields are empty.
+Precondition: None.
+
+Steps:
+1. Open the login page.
+2. Leave email and password fields empty.
+3. Click the Login button.
+
+Expected Result:
+- Login is not allowed.
+- Validation messages appear for required fields.
+
+
+Test Case 5: Login with Empty Email Field
+Test Case ID: UL-05
+Description: Verify login when email field is empty.
+Precondition: None.
+
+Steps:
+1. Open the login page.
+2. Leave email field empty.
+3. Enter a password.
+4. Click the Login button.
+
+Expected Result:
+- Login fails.
+- Error message indicates email is required.
+
+
+Test Case 6: Login with Empty Password Field
+Test Case ID: UL-06
+Description: Verify login when password field is empty.
+Precondition: None.
+
+Steps:
+1. Open the login page.
+2. Enter a valid email.
+3. Leave password field empty.
+4. Click the Login button.
+
+Expected Result:
+- Login fails.
+- Error message indicates password is required.
+
+
+Test Case 7: Login with SQL Injection Attempt
+Test Case ID: UL-07
+Description: Verify system security against SQL injection.
+Precondition: None.
+
+Steps:
+1. Open the login page.
+2. Enter ' OR '1'='1 in the email field.
+3. Enter any password.
+4. Click the Login button.
+
+Expected Result:
+- Login fails.
+- System remains secure and no data is exposed.
+
+
+Test Case 8: Login with Special Characters
+Test Case ID: UL-08
+Description: Verify system behavior with special characters input.
+Precondition: None.
+
+Steps:
+1. Open the login page.
+2. Enter special characters in email field.
+3. Enter special characters in password field.
+4. Click the Login button.
+
+Expected Result:
+- Login fails.
+- Error message is displayed.
