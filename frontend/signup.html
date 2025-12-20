@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
   <title>Sign Up - Traskio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -324,8 +325,16 @@
       border-width: 5px;
     }
   </style>
+=======
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+>>>>>>> origin/main
 </head>
+
 <body>
+<<<<<<< HEAD
 
 <div class="bg-shapes">
   <div class="shape"></div>
@@ -464,5 +473,77 @@ async function signup(e){
 }
 </script>
 
+=======
+  <div class="bg-shapes" aria-hidden="true">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <main class="page">
+    <section class="card">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h2>Create your workspace</h2>
+          <div class="sub">Start organizing projects, tasks, and business goals.</div>
+        </div>
+      </div>
+
+      <div class="badge">
+        <span class="dot"></span>
+        <span>You can do it — let’s build your first plan 🚀</span>
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">Project boards</span>
+        <span class="pill">Team tasks</span>
+        <span class="pill">Deadlines</span>
+        <span class="pill">Progress</span>
+      </div>
+
+      <form class="form" method="POST" action="/signup">
+        <div class="field">
+          <label>Email</label>
+          <input class="input" type="email" name="email" placeholder="Enter your work email" required />
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input class="input" type="password" name="password" placeholder="Create a password" required />
+        </div>
+
+        <div class="field">
+          <label>Confirm Password</label>
+          <input class="input" type="password" name="confirm_password" placeholder="Repeat password" required />
+        </div>
+
+        <button class="btn" type="submit">Create account</button>
+
+        <div class="footer">
+          Tip: use a strong password 💪
+          <br/>
+          <span class="mini">Already have an account? <a class="link" href="/">Login</a></span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const msg = new URLSearchParams(window.location.search).get("msg");
+    if (msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+
+      const isError = /invalid|missing|match|exists|error/i.test(msg);
+      toast.classList.add("show", isError ? "error" : "ok");
+
+      setTimeout(() => toast.classList.remove("show"), 3200);
+      setTimeout(() => toast.classList.remove("error", "ok"), 3600);
+    }
+  </script>
+>>>>>>> origin/main
 </body>
 </html>
