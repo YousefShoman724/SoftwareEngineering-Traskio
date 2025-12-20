@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Traskio</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <!-- Form to add new task -->
+    <form id="taskForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <input type="text" id="description" placeholder="Description">
+        <input type="text" id="assigned_to" placeholder="Assigned To" required>
+        <input type="text" id="status" placeholder="Status" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Task list will be displayed here -->
+    <ul id="tasksList"></ul>
+
+    <script>
+        const apiUrl = "http://127.0.0.1:5000/tasks"; // رابط الـ backend API
+
+        // Add new task
+        document.getElementById("taskForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // منع الريلود الافتراضي للصفحة عند submit
+
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+            const assigned_to = document.getElementById("assigned_to").value;
+            const status = document.getElementById("status").value;
+
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({title, description, assigned_to, status})
+            })
+            .then(res => res.json())
+            .then(task => {
+                loadTasks();               // إعادة تحميل الـ tasks بعد الإضافة
+                document.getElementById("taskForm").reset(); // تنظيف الفورم
+            });
+        });
+
+        // Load all tasks
+        function loadTasks() {
+            fetch(apiUrl)
+            .then(res => res.json())
+            .then(tasks => {
+                const list = document.getElementById("tasksList");
+                list.innerHTML = ""; // مسح القديم قبل العرض الجديد
+
+                tasks.forEach(t => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        ${t.id}: ${t.title} - ${t.description} - ${t.assigned_to} - ${t.status}
+                        <button onclick="deleteTask(${t.id})">Delete</button>
+                        <button onclick="editTask(${t.id})">Edit</button>
+                    `;
+                    list.appendChild(li);
+                });
+            });
+        }
+
+        // Delete a task
+        function deleteTask(id) {
+            fetch(`${apiUrl}/${id}`, {method: "DELETE"})
+            .then(res => res.json())
+            .then(() => loadTasks()); // تحديث اللست بعد الحذف
+        }
+
+        // Edit a task
+        function editTask(id) {
+            const newTitle = prompt("Enter new title:");
+            const newDescription = prompt("Enter new description:");
+            const newAssignedTo = prompt("Enter new assigned_to:");
+            const newStatus = prompt("Enter new status:");
+
+            fetch(`${apiUrl}/${id}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    title: newTitle,
+                    description: newDescription,
+                    assigned_to: newAssignedTo,
+                    status: newStatus
+                })
+            })
+            .then(res => res.json())
+            .then(() => loadTasks()); // إعادة تحميل اللست بعد التعديل
+        }
+
+        // Initial load
+        loadTasks();
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+classDiagram
+    class User {
+        +String email
+        +String password
+        +login(email, password)
+        +logout()
+        +signup(email, password, confirm_password)
+        +is_logged_in()
+    }
+
+    class Task {
+        +int id
+        +String title
+        +String description
+        +String assigned_to
+        +String status
+        +String priority
+        +DateTime deadline
+        +List~String~ tags
+        +List~Subtask~ subtasks
+        +List~Comment~ comments
+        +DateTime createdAt
+        +int timeTracked
+        +addTask(task)
+        +editTask(task_id, updated_task)
+        +deleteTask(task_id)
+        +assignTask(task_id, user_email)
+        +updateStatus(task_id, status)
+        +addSubtask(task_id, subtask)
+        +addComment(task_id, comment)
+        +trackTime(task_id, time)
+    }
+
+    class Subtask {
+        +String title
+        +String status
+        +DateTime deadline
+        +markComplete()
+        +editSubtask()
+    }
+
+    class Comment {
+        +String author
+        +String content
+        +DateTime createdAt
+        +editComment()
+    }
+
+    class Session {
+        +String current_user_email
+        +start_session(email)
+        +end_session()
+        +get_current_user()
+    }
+
+    class FileHandler {
+        +load_users()
+        +save_users(users)
+        +load_tasks()
+        +save_tasks(tasks)
+        +ensure_users_file()
+        +ensure_tasks_file()
+    }
+
+    User "1" --> "*" Task : manages
+    Task "1" --> "*" Subtask : has
+    Task "1" --> "*" Comment : has
+    Session "1" --> "1" User : authenticates
+    FileHandler "1" --> "*" User : reads/writes
+    FileHandler "1" --> "*" Task : reads/writes

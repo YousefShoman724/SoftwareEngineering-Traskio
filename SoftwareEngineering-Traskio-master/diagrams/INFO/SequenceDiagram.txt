@@ -1,0 +1,73 @@
+sequenceDiagram
+    participant Guest
+    participant User
+    participant Frontend
+    participant Backend
+    participant UsersDB
+    participant TasksDB
+
+    %% ---------------- Signup Flow ----------------
+    Guest->>Frontend: Opens signup page
+    Frontend->>Guest: Renders signup form
+    Guest->>Frontend: Submits email, password, confirm password
+    Frontend->>Backend: POST /signup {email, password, confirm_password}
+    Backend->>UsersDB: Load users.json
+    Backend->>UsersDB: Check if email exists
+    alt Email exists
+        Backend->>Frontend: 409 Conflict {Email already exists}
+        Frontend->>Guest: Show error message
+    else Email does not exist
+        Backend->>UsersDB: Append new user with hashed password
+        Backend->>UsersDB: Save users.json
+        Backend->>Frontend: 200 OK {Signup successful}
+        Frontend->>Guest: Show success message
+
+    %% ---------------- Login Flow ----------------
+    Guest->>Frontend: Opens login page
+    Frontend->>Guest: Renders login form
+    Guest->>Frontend: Submits email and password
+    Frontend->>Backend: POST /login {email, password}
+    Backend->>UsersDB: Load users.json
+    Backend->>UsersDB: Verify email and hashed password
+    alt Credentials invalid
+        Backend->>Frontend: 401 Unauthorized {Invalid email or password}
+        Frontend->>Guest: Show error message
+    else Credentials valid
+        Backend->>User: Set session["user"]
+        Backend->>Frontend: 200 OK {Login successful}
+        Frontend->>User: Redirect to /dashboard
+
+    %% ---------------- Dashboard Access ----------------
+    User->>Backend: GET /dashboard
+    Backend->>User: Check session["user"]
+    alt Not logged in
+        Backend->>User: Redirect to login page
+    else Logged in
+        Backend->>Frontend: Render dashboard.html
+
+    %% ---------------- Task Management ----------------
+    User->>Frontend: Add Task form submission
+    Frontend->>Backend: POST /tasks {title, description, ...}
+    Backend->>TasksDB: Load tasks.json
+    Backend->>TasksDB: Append new task with ID
+    Backend->>TasksDB: Save tasks.json
+    Backend->>Frontend: 200 OK {Task added successfully}
+
+    User->>Frontend: Edit Task form submission
+    Frontend->>Backend: PUT /tasks/<id> {updated fields}
+    Backend->>TasksDB: Load tasks.json
+    Backend->>TasksDB: Update task with matching ID
+    Backend->>TasksDB: Save tasks.json
+    Backend->>Frontend: 200 OK {Task updated successfully}
+
+    User->>Frontend: Delete Task request
+    Frontend->>Backend: DELETE /tasks/<id>
+    Backend->>TasksDB: Load tasks.json
+    Backend->>TasksDB: Remove task with matching ID
+    Backend->>TasksDB: Save tasks.json
+    Backend->>Frontend: 200 OK {Task deleted successfully}
+
+    User->>Frontend: View Tasks
+    Frontend->>Backend: GET /tasks
+    Backend->>TasksDB: Load tasks.json
+    Backend->>Frontend: Return user's tasks list

@@ -1,0 +1,53 @@
+flowchart LR
+  Guest([Guest User])
+  User([Authenticated User])
+
+  UC1((Sign Up))
+  UC2((Log In))
+  UC3((Log Out))
+  UC4((View Dashboard))
+  UC5((Add Task))
+  UC6((Edit Task))
+  UC7((Delete Task))
+  UC8((Assign Task))
+  UC9((Add Subtask))
+  UC10((Add Comment))
+  UC11((Update Task Status))
+  UC12((Filter/Sort Tasks))
+  UC13((Export Tasks))
+
+  Guest --> UC1
+  Guest --> UC2
+
+  User --> UC3
+  User --> UC4
+  User --> UC5
+  User --> UC6
+  User --> UC7
+  User --> UC8
+  User --> UC9
+  User --> UC10
+  User --> UC11
+  User --> UC12
+  User --> UC13
+
++-----------------------------------+
+|        Traskio Task Manager       |
++-----------------------------------+
+          ^               ^
+          |               |
+        Guest           User (Logged In)
+          |               |
+          |               |
+          v               v
+   [Signup / Register]      [Login]
+                             |
+                             v
+                        [Dashboard Access]
+                             |
+          ------------------------------------------
+          |           |          |        |        |
+      [Add Task]   [Edit Task] [Delete Task] [View Tasks] [Logout]
+          |           |          |        |
+          v           v          v        v
+      [Subtasks]   [Comments] [Tags]  [Priority / Deadline]

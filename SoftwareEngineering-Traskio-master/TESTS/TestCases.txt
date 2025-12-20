@@ -1,0 +1,219 @@
+SYSTEM TEST CASES — Traskio Project
+
+=====================================
+AUTHENTICATION TEST CASES
+=====================================
+
+Test Case ID: TC-01
+Title: Signup with Valid Data
+Description: Verify that a new user can successfully sign up with valid email and password.
+Precondition: User is not registered.
+
+Steps:
+1. Open the signup page.
+2. Enter a valid email address.
+3. Enter a valid password.
+4. Enter matching confirm password.
+5. Click the Signup button.
+
+Expected Result:
+- Account is created successfully.
+- User is redirected to login page.
+
+
+Test Case ID: TC-02
+Title: Signup with Existing Email
+Description: Verify system prevents duplicate email registration.
+Precondition: Email already exists.
+
+Steps:
+1. Open the signup page.
+2. Enter an already registered email.
+3. Enter a password.
+4. Confirm the password.
+5. Click the Signup button.
+
+Expected Result:
+- Signup fails.
+- Error message is displayed.
+
+
+Test Case ID: TC-03
+Title: Signup with Password Mismatch
+Description: Verify validation when password and confirm password do not match.
+Precondition: None.
+
+Steps:
+1. Open the signup page.
+2. Enter a valid email.
+3. Enter a password.
+4. Enter a different confirm password.
+5. Click the Signup button.
+
+Expected Result:
+- Signup fails.
+- Error message indicates password mismatch.
+
+
+=====================================
+LOGIN TEST CASES
+=====================================
+
+Test Case ID: TC-04
+Title: Login with Valid Credentials
+Description: Verify user login with valid credentials.
+Precondition: User is registered.
+
+Steps:
+1. Open the login page.
+2. Enter valid email.
+3. Enter correct password.
+4. Click Login.
+
+Expected Result:
+- User is logged in.
+- Dashboard is displayed.
+
+
+Test Case ID: TC-05
+Title: Login with Invalid Password
+Description: Verify login fails with incorrect password.
+Precondition: User is registered.
+
+Steps:
+1. Open login page.
+2. Enter valid email.
+3. Enter incorrect password.
+4. Click Login.
+
+Expected Result:
+- Login fails.
+- Error message is shown.
+
+
+Test Case ID: TC-06
+Title: Login with Unregistered Email
+Description: Verify login fails with non-existing email.
+Precondition: None.
+
+Steps:
+1. Open login page.
+2. Enter unregistered email.
+3. Enter any password.
+4. Click Login.
+
+Expected Result:
+- Login fails.
+- Error message is shown.
+
+
+=====================================
+DASHBOARD & SESSION TEST CASES
+=====================================
+
+Test Case ID: TC-07
+Title: Access Dashboard Without Login
+Description: Verify dashboard is protected.
+Precondition: User is not logged in.
+
+Steps:
+1. Try to access /dashboard directly.
+
+Expected Result:
+- Access denied.
+- User is redirected to login page.
+
+
+Test Case ID: TC-08
+Title: Logout Functionality
+Description: Verify user can logout successfully.
+Precondition: User is logged in.
+
+Steps:
+1. Open dashboard.
+2. Click Logout.
+
+Expected Result:
+- Session is cleared.
+- User is redirected to login page.
+
+
+=====================================
+TASK MANAGEMENT TEST CASES
+=====================================
+
+Test Case ID: TC-09
+Title: Add New Task
+Description: Verify logged-in user can add a task.
+Precondition: User is logged in.
+
+Steps:
+1. Open dashboard.
+2. Enter task title and details.
+3. Click Add Task.
+
+Expected Result:
+- Task is added successfully.
+- Task appears in task list.
+
+
+Test Case ID: TC-10
+Title: Edit Task
+Description: Verify user can edit an existing task.
+Precondition: Task already exists.
+
+Steps:
+1. Open dashboard.
+2. Select a task.
+3. Modify task details.
+4. Click Save.
+
+Expected Result:
+- Task is updated successfully.
+
+
+Test Case ID: TC-11
+Title: Delete Task
+Description: Verify user can delete a task.
+Precondition: Task exists.
+
+Steps:
+1. Open dashboard.
+2. Select delete option for a task.
+
+Expected Result:
+- Task is removed from the list.
+
+
+=====================================
+SECURITY & VALIDATION TEST CASES
+=====================================
+
+Test Case ID: TC-12
+Title: Password Storage Security
+Description: Verify passwords are stored hashed.
+Precondition: User signed up.
+
+Steps:
+1. Inspect stored password in database.
+
+Expected Result:
+- Password is not stored in plain text.
+
+
+Test Case ID: TC-13
+Title: Session Expiry After Logout
+Description: Verify session ends after logout.
+Precondition: User logged in then logged out.
+
+Steps:
+1. Logout.
+2. Try accessing dashboard.
+
+Expected Result:
+- Access denied.
+- Redirected to login page.
+
+=====================================
+END OF TEST CASES
+=====================================

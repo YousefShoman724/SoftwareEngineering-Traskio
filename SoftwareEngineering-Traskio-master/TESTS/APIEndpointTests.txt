@@ -1,0 +1,18 @@
+# API Endpoint Test Cases — Traskio Project
+
+| Test Case ID | Title                        | Endpoint       | Description                                           | Request Body / Notes | Expected Result |
+|--------------|------------------------------|----------------|-------------------------------------------------------|--------------------|----------------|
+| API-01       | Signup with Valid Data       | POST /signup   | Verify user can sign up using valid email/password   | `{ "email": "user@test.com", "password": "123456", "confirm_password": "123456" }` | Status 200, success=true, user saved in users.json |
+| API-02       | Signup with Existing Email   | POST /signup   | Verify duplicate email signup is rejected            | -                  | Status 400, error message "email already exists" |
+| API-03       | Signup with Password Mismatch | POST /signup  | Verify signup fails when password and confirm mismatch | -                  | Status 400, error message returned |
+| API-04       | Login with Valid Credentials | POST /login    | Verify user can login using correct credentials     | `{ "email": "user@test.com", "password": "123456" }` | Status 200, success=true, session created |
+| API-05       | Login with Invalid Credentials | POST /login  | Verify login fails with incorrect email/password    | -                  | Status 401, success=false, error message |
+| API-06       | Access Dashboard Without Login | GET /dashboard | Verify unauthenticated user cannot access dashboard | -                  | Status 302 (Redirect), redirected to login |
+| API-07       | Access Dashboard After Login | GET /dashboard | Verify authenticated user can access dashboard      | -                  | Status 200, dashboard loads |
+| API-08       | Get All Tasks                | GET /tasks     | Verify tasks list is returned                        | -                  | Status 200, JSON array of tasks |
+| API-09       | Create New Task              | POST /tasks    | Verify new task is created                           | `{ "title": "Test Task", "description": "API test task", "assigned_to": "user@test.com", "status": "Pending" }` | Status 201, task saved in tasks.json |
+| API-10       | Create Task Without Title    | POST /tasks    | Verify task creation fails without title            | -                  | Status 400, error message |
+| API-11       | Update Existing Task         | PUT /tasks/{id} | Verify task details can be updated                   | -                  | Status 200, task data updated |
+| API-12       | Delete Task                  | DELETE /tasks/{id} | Verify task is deleted                               | -                  | Status 200, task removed from tasks.json |
+| API-13       | Password Hashing Validation  | -              | Verify passwords are not stored in plain text       | -                  | Passwords in users.json are hashed |
+| API-14       | CORS Enabled                 | -              | Verify CORS headers exist for frontend requests     | -                  | Access-Control-Allow-Origin header exists |

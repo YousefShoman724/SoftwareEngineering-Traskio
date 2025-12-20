@@ -1,0 +1,204 @@
+TASK MANAGEMENT TEST CASES — Traskio Project
+
+=====================================
+TASK CREATION TEST CASES
+=====================================
+
+Test Case ID: TM-01
+Title: Add New Task with Valid Data
+Description: Verify that a logged-in user can create a new task with valid information.
+Precondition: User is logged in.
+
+Steps:
+1. Open the dashboard.
+2. Click on "Add Task".
+3. Enter a task title.
+4. Enter a task description.
+5. Select priority.
+6. Set deadline (optional).
+7. Click Save.
+
+Expected Result:
+- Task is created successfully.
+- Task appears in the task list.
+
+
+Test Case ID: TM-02
+Title: Add Task with Empty Title
+Description: Verify task creation fails when title is empty.
+Precondition: User is logged in.
+
+Steps:
+1. Open dashboard.
+2. Click Add Task.
+3. Leave task title empty.
+4. Click Save.
+
+Expected Result:
+- Task is not created.
+- Validation error message is shown.
+
+
+=====================================
+TASK VIEWING TEST CASES
+=====================================
+
+Test Case ID: TM-03
+Title: View All Tasks
+Description: Verify user can view all created tasks.
+Precondition: User has at least one task.
+
+Steps:
+1. Open dashboard.
+2. View task list.
+
+Expected Result:
+- All tasks are displayed correctly.
+
+
+Test Case ID: TM-04
+Title: View Task Details
+Description: Verify user can view full task details.
+Precondition: Task exists.
+
+Steps:
+1. Click on a task.
+
+Expected Result:
+- Task details (description, priority, deadline, status) are displayed.
+
+
+=====================================
+TASK UPDATE TEST CASES
+=====================================
+
+Test Case ID: TM-05
+Title: Edit Task Title
+Description: Verify user can edit task title.
+Precondition: Task exists.
+
+Steps:
+1. Open dashboard.
+2. Select a task.
+3. Edit task title.
+4. Click Save.
+
+Expected Result:
+- Task title is updated successfully.
+
+
+Test Case ID: TM-06
+Title: Change Task Status
+Description: Verify task status can be updated.
+Precondition: Task exists.
+
+Steps:
+1. Open dashboard.
+2. Change task status (Pending → Completed).
+
+Expected Result:
+- Task status is updated correctly.
+
+
+Test Case ID: TM-07
+Title: Update Task Priority
+Description: Verify user can change task priority.
+Precondition: Task exists.
+
+Steps:
+1. Select a task.
+2. Change priority.
+3. Save changes.
+
+Expected Result:
+- Task priority is updated.
+
+
+=====================================
+TASK DELETION TEST CASES
+=====================================
+
+Test Case ID: TM-08
+Title: Delete Existing Task
+Description: Verify user can delete a task.
+Precondition: Task exists.
+
+Steps:
+1. Open dashboard.
+2. Click Delete on a task.
+
+Expected Result:
+- Task is deleted successfully.
+- Task no longer appears in task list.
+
+
+=====================================
+SUBTASK TEST CASES
+=====================================
+
+Test Case ID: TM-09
+Title: Add Subtask
+Description: Verify user can add subtasks to a task.
+Precondition: Parent task exists.
+
+Steps:
+1. Open a task.
+2. Add a subtask.
+3. Save.
+
+Expected Result:
+- Subtask is added under the parent task.
+
+
+=====================================
+COMMENTS & TAGS TEST CASES
+=====================================
+
+Test Case ID: TM-10
+Title: Add Comment to Task
+Description: Verify user can add comments to a task.
+Precondition: Task exists.
+
+Steps:
+1. Open task details.
+2. Enter a comment.
+3. Submit.
+
+Expected Result:
+- Comment is added successfully.
+
+
+Test Case ID: TM-11
+Title: Add Tags to Task
+Description: Verify user can add tags to tasks.
+Precondition: Task exists.
+
+Steps:
+1. Open task details.
+2. Add tags.
+3. Save.
+
+Expected Result:
+- Tags are added and displayed correctly.
+
+
+=====================================
+TIME TRACKING TEST CASES
+=====================================
+
+Test Case ID: TM-12
+Title: Track Time for Task
+Description: Verify time tracking functionality.
+Precondition: Task exists.
+
+Steps:
+1. Start time tracking.
+2. Stop time tracking.
+
+Expected Result:
+- Time is recorded correctly for the task.
+
+
+=====================================
+END OF TASK MANAGEMENT TEST CASES
+=====================================
